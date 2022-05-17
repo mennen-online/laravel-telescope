@@ -118,6 +118,15 @@ class TelescopeTest extends FeatureTestCase
 
         $this->assertFalse(Telescope::isRecording());
     }
+
+    /**
+     * @test
+     */
+    public function telescope_is_accessible_on_non_local_environment_if_set_in_config() {
+        config()->set('telescope.environments', ['self-testing']);
+
+        $this->assertNotSame(403, $this->get(route('telescope'))->status());
+    }
 }
 
 class MySyncJob implements ShouldQueue
